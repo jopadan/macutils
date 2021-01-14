@@ -9,10 +9,6 @@
 #include "../util/masks.h"
 #include "../util/util.h"
 
-extern char *malloc();
-extern char *realloc();
-extern char *strcpy();
-extern char *strncpy();
 extern void cpt_wrfile1();
 extern void core_compress();
 extern void de_compress();

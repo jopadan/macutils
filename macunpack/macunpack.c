@@ -77,7 +77,7 @@ char *argv[];
 			"-V:\tgive information about this version\n");
 		(void)fprintf(stderr, "-H:\tthis message\n");
 		(void)fprintf(stderr, "Default is silent unpacking\n");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	    case 'V':
 		(void)fprintf(stderr, "Version %s, ", VERSION);
 		(void)fprintf(stderr, "patchlevel %d", PATCHLEVEL);
@@ -123,13 +123,13 @@ char *argv[];
 #ifdef DD
 		(void)fprintf(stderr, "\tDiskDoubler and AutoDoubler\n");
 #endif /* DD */
-		exit(0);
+		exit(EXIT_SUCCESS);
 	    }
 	}
     }
     if(errflg) {
 	usage();
-	exit(1);
+	exit(EXIT_FAILURE);
     }
 
     if(optind == argc) {
@@ -137,7 +137,7 @@ char *argv[];
     } else {
 	if((infp = fopen(argv[optind], "r")) == NULL) {
 	    (void)fprintf(stderr,"Can't open input file \"%s\"\n",argv[optind]);
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 #ifdef SCAN
 	do_idf(argv[optind], UNIX_NAME);
@@ -187,9 +187,9 @@ char *argv[];
 #endif /* CPT */
     default:
 	(void)fprintf(stderr, "Unrecognized archive type\n");
-	exit(1);
+	exit(EXIT_FAILURE);
     }
-    exit(0);
+    exit(EXIT_SUCCESS);
     /* NOTREACHED */
 }
 

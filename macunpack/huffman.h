@@ -11,4 +11,5 @@ extern void clrhuff();
 
 extern struct node nodelist[];
 extern int bytesread;
-
+extern int gethuffbyte(node* l_nodelist);
+extern int getihuffbyte();

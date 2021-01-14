@@ -7,7 +7,6 @@ SRCS =	hexbin.c \
 	mu.c \
 	buffer.c \
 	crc.c \
-	readline.c \
 	printhdr.c \
 	globals.c
 
@@ -18,7 +17,6 @@ OBJS =	hexbin.o \
 	mu.o \
 	buffer.o \
 	crc.o \
-	readline.o \
 	printhdr.o \
 	globals.o
 
@@ -64,7 +62,6 @@ clobber:clean
 
 hexbin.o:	globals.h
 hexbin.o:	crc.h
-hexbin.o:	readline.h
 hexbin.o:	../util/masks.h
 hexbin.o:	../util/util.h
 hexbin.o:	../util/patchlevel.h
@@ -77,7 +74,6 @@ hexbin.o:	hexbin.h
 dl.o:	hexbin.h
 dl.o:	globals.h
 dl.o:	crc.h
-dl.o:	readline.h
 dl.o:	../fileio/machdr.h
 dl.o:	../fileio/wrfile.h
 dl.o:	../util/util.h
@@ -86,7 +82,6 @@ dl.o:	printhdr.h
 hecx.o:	hexbin.h
 hecx.o:	globals.h
 hecx.o:	crc.h
-hecx.o:	readline.h
 hecx.o:	../util/masks.h
 hecx.o:	../util/util.h
 hecx.o:	../fileio/machdr.h
@@ -95,7 +90,6 @@ hecx.o:	buffer.h
 hecx.o:	printhdr.h
 hqx.o:	hexbin.h
 hqx.o:	globals.h
-hqx.o:	readline.h
 hqx.o:	crc.h
 hqx.o:	buffer.h
 hqx.o:	../fileio/machdr.h
@@ -104,7 +98,6 @@ hqx.o:	../util/util.h
 hqx.o:	printhdr.h
 mu.o:	hexbin.h
 mu.o:	globals.h
-mu.o:	readline.h
 mu.o:	../util/masks.h
 mu.o:	../util/util.h
 mu.o:	../fileio/machdr.h
@@ -119,8 +112,6 @@ crc.o:	hexbin.h
 crc.o:	crc.h
 crc.o:	../util/masks.h
 crc.o:	globals.h
-readline.o:	readline.h
-readline.o:	globals.h
 printhdr.o:	printhdr.h
 printhdr.o:	globals.h
 globals.o:	globals.h

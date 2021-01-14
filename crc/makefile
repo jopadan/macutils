@@ -1,4 +1,4 @@
-CFLAGS = 	-O $(CF)
+CFLAGS =	-O $(CF)
 CRCC =	arc.c ccitt.c kermit.c binhex.c ccitt32.c zip.c
 CRCO =	arc.o ccitt.o kermit.o binhex.o ccitt32.o zip.o
 

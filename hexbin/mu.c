@@ -1,7 +1,6 @@
 #include "hexbin.h"
 #ifdef MU
 #include "globals.h"
-#include "readline.h"
 #include "../util/masks.h"
 #include "../util/util.h"
 #include "../fileio/machdr.h"
@@ -53,37 +52,37 @@ char *macname;
     set_put(1);
     do_mu_fork();
     mh.m_datalen = data_size;
-    if(!readline()) {
+    if(!readline(NULL)) {
 	(void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(strncmp(line, "begin ", 6)) {
 	(void)fprintf(stderr, "No UU header found.\n");
 #ifdef SCAN
 	do_error("hexbin: No UU header found");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(!strncmp(line + 10, " .rsrc", 6)) {
 	set_put(0);
 	do_mu_fork();
 	mh.m_rsrclen = rsrc_size;
-	if(!readline()) {
+	if(!readline(NULL)) {
 	    (void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	    do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	if(strncmp(line, "begin ", 6)) {
 	    (void)fprintf(stderr, "No UU header found.\n");
 #ifdef SCAN
 	    do_error("hexbin: No UU header found");
 #endif /* SCAN */
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
     } else {
 	mh.m_rsrclen = 0;
@@ -93,43 +92,43 @@ char *macname;
 #ifdef SCAN
 	do_error("hexbin: No finder info found");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
-    if(!readline()) {
+    if(!readline(NULL)) {
 	(void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     (void)mu_convert(line, info + I_TYPEOFF);
-    if(!readline()) {
+    if(!readline(NULL)) {
 	(void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(mu_convert(line, line)) {
 	(void)fprintf(stderr, "Long finderinfo.\n");
 #ifdef SCAN
 	do_error("hexbin: Long finderinfo");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
-    if(!readline()) {
+    if(!readline(NULL)) {
 	(void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(strncmp(line, "end", 3)) {
 	(void)fprintf(stderr, "\"end\" line missing.\n");
 #ifdef SCAN
 	do_error("hexbin: \"end\" line missing");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
 
     (void)strncpy(mh.m_type, info + I_TYPEOFF, 4);
@@ -147,27 +146,31 @@ static void do_mu_fork()
 {
     long newbytes;
 
-    while(readline()) {
+    while(line = readline(NULL)) {
 	if(line[0] == 0) {
+	    free(line);
 	    continue;
 	}
 	newbytes = mu_comp_to_bin();
 	if(newbytes != 0) {
+            free(line);
 	    continue;
 	}
-	if(!readline()) {
+	if((line = readline(NULL)) == NULL) {
 	    (void)fprintf(stderr, "Premature EOF\n");
 #ifdef SCAN
 	    do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	    exit(1);
+	    free(line);
+	    exit(EXIT_FAILURE);
 	}
 	if(strncmp(line, "end", 3)) {
 	    (void)fprintf(stderr, "\"end\" line missing.\n");
 #ifdef SCAN
 	    do_error("hexbin: \"end\" line missing");
 #endif /* SCAN */
-	    exit(1);
+	    free(line);
+	    exit(EXIT_FAILURE);
 	}
 	return;
     }
@@ -175,7 +178,7 @@ static void do_mu_fork()
 #ifdef SCAN
     do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-    exit(1);
+    exit(EXIT_FAILURE);
     /*NOTREACHED*/
 }
 

@@ -38,7 +38,7 @@ void pit()
 #ifdef SCAN
 		do_error("macunpack: Premature EOF");
 #endif /* SCAN */
-		exit(1);
+		exit(EXIT_FAILURE);
 	    }
 	}
 	synced = 0;
@@ -51,7 +51,7 @@ void pit()
 #ifdef SCAN
 	    do_error("macunpack: File contains non PackIt info");
 #endif /* SCAN */
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	switch(pithdr[3]) {
 	case 'g':

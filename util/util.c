@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "../fileio/fileglob.h"
 #include "masks.h"
 #include "util.h"
-
-extern void exit();
 
 #define MACTIMOFFS    1904
 

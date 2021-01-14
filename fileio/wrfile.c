@@ -4,6 +4,12 @@
 #include <sys/stat.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <getopt.h>
+
 #include "machdr.h"
 #include "wrfile.h"
 #include "wrfileopt.h"
@@ -34,17 +40,6 @@
 #ifdef SCAN
 #define MACI 9
 #endif /* SCAN */
-
-extern char *malloc();
-extern char *realloc();
-extern char *strcpy();
-extern char *strncpy();
-extern char *strcat();
-extern void exit();
-
-#ifdef UNDEF /* Do not declare sprintf; not portable (but lint will complain) */
-char *sprintf();
-#endif /* UNDEF */
 
 #ifdef AUFS
 static void check_aufs();

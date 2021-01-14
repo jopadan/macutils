@@ -2,7 +2,6 @@
 #ifdef DL
 #include "globals.h"
 #include "crc.h"
-#include "readline.h"
 #include "../fileio/machdr.h"
 #include "../fileio/wrfile.h"
 #include "../util/util.h"
@@ -14,8 +13,6 @@ extern void exit();
 static long dl_fork();
 static int nchar();
 static int nextc();
-
-static char *icp = &line[0];
 
 /* oldest format -- process .dl files */
 void dl(macname, filename)
@@ -121,7 +118,8 @@ static int nchar()
 static int nextc()
 {
     while(*icp == 0) {
-	if(readline() == 0) {
+	char *line = readline(NULL);
+	if(line == NULL) {
 	    return EOF;
 	}
 	icp = &line[0];

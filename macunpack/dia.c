@@ -9,9 +9,6 @@
 #include "../fileio/kind.h"
 #include "../util/util.h"
 
-extern char *malloc();
-extern char *realloc();
-
 static unsigned char *dia_archive;
 static int dia_archive_size;
 static int dia_max_archive_size;
@@ -56,7 +53,7 @@ unsigned char *bin_hdr;
 	}
 	if(dia_archive == 0) {
 	    (void)fprintf(stderr, "Insufficient memory.\n");
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	dia_max_archive_size = in_data_size;
     }
@@ -66,7 +63,7 @@ unsigned char *bin_hdr;
 #ifdef SCAN
 	do_error("macunpack: Can't read archive");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     nlength = bin_hdr[I_NAMEOFF] & BYTEMASK;
     if(!strncmp((char *)bin_hdr + I_NAMEOFF + nlength - 1, " \272", 2)) {
@@ -84,14 +81,14 @@ unsigned char *bin_hdr;
 #ifdef SCAN
 	do_error("macunpack: Multi-segment archive");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(hdr & CRYPTED) {
 	(void)fprintf(stderr, "Encrypted archives not implemented.\n");
 #ifdef SCAN
 	do_idf("", PROTECTED);
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     i = (hdr & N_BLOCKS) + 1;
     header = (unsigned char *)malloc((unsigned)(i * CHUNKSIZE));

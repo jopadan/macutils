@@ -1,5 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <getopt.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #ifdef BSD
 extern char *rindex();
 #define search_last rindex

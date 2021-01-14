@@ -1,7 +1,6 @@
 #include "hexbin.h"
 #ifdef HQX
 #include "globals.h"
-#include "readline.h"
 #include "crc.h"
 #include "buffer.h"
 #include "../fileio/machdr.h"
@@ -150,7 +149,7 @@ char *macname;
 		*out = 0;
 		(void)fprintf(stderr, "Skip:%s\n", line);
 	    }
-	    if(readline()) {
+	    if(readline(NULL)) {
 		continue;
 	    } else {
 		break;
@@ -214,7 +213,7 @@ skipcheck:
 	    }
 	} while(++in < out);
 	if(!stop) {
-	    if(!readline()) {
+	    if(!readline(NULL)) {
 		break;
 	    }
 	}
@@ -336,7 +335,7 @@ static void oflush()
 	    ++ostate;
 	    break;
 	case S_EXCESS:
-	    (void)fprintf(stderr, "%d excess bytes ignored\n", op-oq);
+	    (void)fprintf(stderr, "%ld excess bytes ignored\n", op-oq);
 	    oq = op;
 	    break;
 	}

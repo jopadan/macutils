@@ -21,10 +21,6 @@
 #define ESC1SEEN	1
 #define ESC2SEEN	2
 
-extern char *malloc();
-extern char *realloc();
-extern int free();
-
 static void cpt_uncompact();
 static unsigned char *cpt_data;
 static unsigned long cpt_datamax;

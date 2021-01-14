@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <getopt.h>
 #ifdef TYPES_H
 #include <sys/types.h>
 #endif /* TYPES_H */
@@ -41,13 +46,6 @@
 #define DATA_FORMAT	1
 #define RSRC_FORMAT	2
 #define UNIX_FORMAT	3
-
-extern char *malloc();
-extern char *realloc();
-extern char *strcpy();
-extern char *strncpy();
-extern char *strcat();
-extern void exit();
 
 static void check_files();
 static void read_file();

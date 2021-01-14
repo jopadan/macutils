@@ -17,8 +17,6 @@
 #define LZSMASK		4095
 #define LZBUFFSIZE	8192	/* Max of above buffsizes */
 
-extern char *malloc();
-extern char *realloc();
 extern void de_lzah();
 extern unsigned char (*lzah_getbyte)();
 extern void de_lzh();

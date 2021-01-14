@@ -4,9 +4,6 @@
 #include "../util/util.h"
 #include "../util/masks.h"
 
-extern char *malloc();
-extern char *realloc();
-
 static char *dir_stack;
 static int dir_ptr = -64;
 static int dir_max;
@@ -47,7 +44,7 @@ int doit;
 	dir_max += 64;
 	if(dir_stack == NULL) {
 	    (void)fprintf(stderr, "Insufficient memory\n");
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
     }
     transname(hdr + I_NAMEOFF + 1, dir_stack + dir_ptr,

@@ -9,8 +9,6 @@
 #include "../util/masks.h"
 #include "../util/util.h"
 
-extern char *malloc();
-extern char *realloc();
 extern void de_lzh();
 
 /* We do allow for possible backpointing, so we allocate the archive in core */

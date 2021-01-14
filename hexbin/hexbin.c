@@ -4,7 +4,6 @@
 #include <sys/stat.h>
 #include "globals.h"
 #include "crc.h"
-#include "readline.h"
 #include "../util/masks.h"
 #include "../util/util.h"
 #include "../util/patchlevel.h"
@@ -92,7 +91,7 @@ char **argv;
 			"-V:\tgive information about this version\n");
 		(void)fprintf(stderr, "-H:\tthis message\n");
 		(void)fprintf(stderr, "Default is silent conversion\n");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	    case 'V':
 		(void)fprintf(stderr, "Version %s, ", VERSION);
 		(void)fprintf(stderr, "patchlevel %d", PATCHLEVEL);
@@ -111,13 +110,13 @@ char **argv;
 #ifdef MU
 		(void)fprintf(stderr, "\tUUTool (.mu)\n");
 #endif /* MU */
-		exit(0);
+		exit(EXIT_SUCCESS);
 	    }
 	}
     }
     if(errflg) {
 	usage();
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     if(info_only || verbose) {
 	listmode++;
@@ -135,7 +134,7 @@ char **argv;
 	}
 	do_files(filename, macname);
     } while(optind < argc);
-    exit(0);
+    exit(EXIT_SUCCESS);
     /* NOTREACHED */
 }
 
@@ -184,12 +183,12 @@ char *macname;	/* name to use on the mac side of things */
 	}
 	if(*ep == NULL) {
 	    perror(namebuf);
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	ifp = fopen(namebuf, "r");
 	if(ifp == NULL) {
 	    perror(namebuf);
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
     }
     again = 0;
@@ -258,7 +257,7 @@ int again;
 #ifdef SCAN
 	    do_error("hexbin: Premature EOF");
 #endif /* SCAN */
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	ds = get4(header + I_DLENOFF);
 	rs = get4(header + I_RLENOFF);
@@ -270,7 +269,7 @@ int again;
 #ifdef SCAN
 	    do_error("hexbin: not a proper BinHexed file");
 #endif /* SCAN */
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	}
 	if(listmode) {
 	    (void)fprintf(stderr, "This file is probably packed by ");
@@ -294,7 +293,8 @@ int again;
     /*	or for "begin " */
     /*	dl format starts with a line containing only the symbols '@' to 'O',
 	or '|'. */
-    while(readline()) {
+    char* line = NULL;
+    while(line = readline(NULL)) {
 	llen = strlen(line);
 #ifdef HQX
 	if((strncmp(line, "(This file", 10) == 0) ||
@@ -329,7 +329,7 @@ int again;
 	    (void)fprintf(stderr, "Skip:%s\n", line);
 	}
     }
-    while(readline()) {
+    while(readline(NULL)) {
 	switch (line[0]) {
 #ifdef HQX
 	case ':':
@@ -349,7 +349,7 @@ int again;
 #ifdef SCAN
 	do_error("hexbin: unexpected EOF");
 #endif /* SCAN */
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     return form_none;
 }

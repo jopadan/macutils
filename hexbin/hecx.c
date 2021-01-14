@@ -2,7 +2,6 @@
 #ifdef HECX
 #include "globals.h"
 #include "crc.h"
-#include "readline.h"
 #include "../util/masks.h"
 #include "../util/util.h"
 #include "../fileio/machdr.h"
@@ -104,7 +103,7 @@ static void do_o_forks()
 
     set_put(0);
     set_put(1);
-    while(!found_crc && readline()) {
+    while(!found_crc && readline(NULL)) {
 	if(line[0] == 0) {
 	    continue;
 	}
@@ -155,7 +154,7 @@ int compressed;
 {
     register long nbytes = 0L;
 
-    while(readline()) {
+    while(readline(NULL)) {
 	if(line[0] == 0) {
 	    continue;
 	}
