@@ -66,7 +66,7 @@ int poly, init, swapped, bits;
     (void)strcat(buf, ".c");
     if((fd = fopen(buf, "w")) == NULL) {
 	(void)fprintf(stderr, "Cannot open %s for writing\n", buf);
-	exit(1);
+	exit(EXIT_FAILURE);
     }
     
     (void)fprintf(fd, "#include <stdint.h>\n");
