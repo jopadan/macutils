@@ -62,23 +62,23 @@ int poly, init, swapped, bits;
     char buf[20];
     
     buf[0] = 0;
-    strcat(buf, name);
-    strcat(buf, ".c");
+    (void)strcat(buf, name);
+    (void)strcat(buf, ".c");
     if((fd = fopen(buf, "w")) == NULL) {
-	fprintf(stderr, "Cannot open %s for writing\n", buf);
+	(void)fprintf(stderr, "Cannot open %s for writing\n", buf);
 	exit(1);
     }
     
-    fprintf(fd, "#include <stdint.h>\n");
-    fprintf(fd, "\n");
-    fprintf(fd, "uint32_t %s_crcinit = %d;\n", name, init);
-    fprintf(fd, "\n");
+    (void)fprintf(fd, "#include <stdint.h>\n");
+    (void)fprintf(fd, "\n");
+    (void)fprintf(fd, "uint32_t %s_crcinit = %d;\n", name, init);
+    (void)fprintf(fd, "\n");
     if(bits == 16) {
-	fprintf(fd, "static uint16_t crctab[256] = {\n");
+	(void)fprintf(fd, "static uint16_t crctab[256] = {\n");
     } else {
-	fprintf(fd, "static uint32_t crctab[256] = {\n");
+	(void)fprintf(fd, "static uint32_t crctab[256] = {\n");
     }
-    fprintf(fd, "    ");
+    (void)fprintf(fd, "    ");
     if(bits == 16) {
 	for(b = 0; b < 256; ++b) {
 	    if(swapped) {
@@ -88,12 +88,12 @@ int poly, init, swapped, bits;
 		for(v = b<<8, i = 8; --i >= 0;)
 		    v = v & 0x8000 ? (v<<1)^poly : v<<1;
 	    }
-	    fprintf(fd, "0x%.4x,", v & 0xffff);
+	    (void)fprintf(fd, "0x%.4x,", v & 0xffff);
 	    if((b&7) == 7) {
-		fprintf(fd, "\n");
+		(void)fprintf(fd, "\n");
 		if(b != 255) fprintf(fd, "    ");
 	    } else {
-		fprintf(fd, " ");
+		(void)fprintf(fd, " ");
 	    }
 	}
     } else {
@@ -105,56 +105,56 @@ int poly, init, swapped, bits;
 		for(vv = b<<24, i = 8; --i >= 0;)
 		    vv = vv & 0x80000000 ? (vv<<1)^poly : vv<<1;
 	    }
-	    fprintf(fd, "0x%.8x,", vv & 0xffffffff);
+	    (void)fprintf(fd, "0x%.8x,", vv & 0xffffffff);
 	    if((b&3) == 3) {
-		fprintf(fd, "\n");
-		if(b != 255) fprintf(fd, "    ");
+		(void)fprintf(fd, "\n");
+		if(b != 255) (void)fprintf(fd, "    ");
 	    } else {
-		fprintf(fd, " ");
+		(void)fprintf(fd, " ");
 	    }
 	}
     }
-    fprintf(fd, "};\n");
-    fprintf(fd, "\n");
-    fprintf(fd, "uint32_t %s_updcrc(icrc, icp, icnt)\n", name);
-    fprintf(fd, "    uint32_t icrc;\n");
-    fprintf(fd, "    uint8_t *icp;\n");
-    fprintf(fd, "    int icnt;\n");
-    fprintf(fd, "{\n");
+    (void)fprintf(fd, "};\n");
+    (void)fprintf(fd, "\n");
+    (void)fprintf(fd, "uint32_t %s_updcrc(icrc, icp, icnt)\n", name);
+    (void)fprintf(fd, "    uint32_t icrc;\n");
+    (void)fprintf(fd, "    uint8_t *icp;\n");
+    (void)fprintf(fd, "    int icnt;\n");
+    (void)fprintf(fd, "{\n");
     if(bits == 16) {
-	fprintf(fd, "#define M1 0xff\n");
-	fprintf(fd, "#define M2 0xff00\n");
+	(void)fprintf(fd, "#define M1 0xff\n");
+	(void)fprintf(fd, "#define M2 0xff00\n");
     } else {
-	fprintf(fd, "#define M1 0xffffff\n");
-	fprintf(fd, "#define M2 0xffffff00\n");
+	(void)fprintf(fd, "#define M1 0xffffff\n");
+	(void)fprintf(fd, "#define M2 0xffffff00\n");
     }
-    fprintf(fd, "    register uint32_t crc = icrc;\n");
-    fprintf(fd, "    register uint8_t *cp = icp;\n");
-    fprintf(fd, "    register int cnt = icnt;\n");
-    fprintf(fd, "\n");
-    fprintf(fd, "    while(cnt--) {\n");
+    (void)fprintf(fd, "    register uint32_t crc = icrc;\n");
+    (void)fprintf(fd, "    register uint8_t *cp = icp;\n");
+    (void)fprintf(fd, "    register int cnt = icnt;\n");
+    (void)fprintf(fd, "\n");
+    (void)fprintf(fd, "    while(cnt--) {\n");
     if(bits == 16) {
 	if (swapped) {
-	    fprintf(fd,
+	    (void)fprintf(fd,
 		    "\tcrc=((crc>>8)&M1)^crctab[(crc&0xff)^*cp++];\n");
 	} else {
-	    fprintf(fd,
+	    (void)fprintf(fd,
 		    "\tcrc=((crc<<8)&M2)^crctab[((crc>>8)&0xff)^*cp++];\n");
 	}
     } else {
 	if(swapped) {
-	    fprintf(fd,
+	    (void)fprintf(fd,
 		    "\tcrc=((crc>>8)&M1)^crctab[(crc&0xff)^*cp++];\n");
 	} else {
-	    fprintf(fd,
+	    (void)fprintf(fd,
 		    "\tcrc=((crc<<8)&M2)^crctab[((crc>>24)&0xff)^*cp++];\n");
 	}
     }
-    fprintf(fd, "    }\n");
-    fprintf(fd, "\n");
-    fprintf(fd, "    return(crc);\n");
-    fprintf(fd, "}\n");
-    fprintf(fd, "\n");
-    fclose(fd);
+    (void)fprintf(fd, "    }\n");
+    (void)fprintf(fd, "\n");
+    (void)fprintf(fd, "    return(crc);\n");
+    (void)fprintf(fd, "}\n");
+    (void)fprintf(fd, "\n");
+    (void)fclose(fd);
 }
 
